@@ -24,10 +24,12 @@ const pool = new Pool({
  * correct but still see SSL errors, try updating the 'ssl' property in the Pool
  * configuration above to:
  *
- * ssl: {
- *     rejectUnauthorized: false
- * }
  */
+ 
+ssl: {
+      rejectUnauthorized: false
+  }
+ 
 
 /**
  * Since we will modify the normal pool object in development mode, we need to create and
