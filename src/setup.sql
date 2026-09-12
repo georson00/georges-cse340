@@ -156,3 +156,96 @@ VALUES
         'Uniondale Community Center',
         DATE '2026-12-19'
     );
+
+--==============================================
+--Category Table Creation
+--===================================================
+CREATE TABLE category (
+    category_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE service_project_category (
+    project_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+
+    CONSTRAINT pk_service_project_category
+        PRIMARY KEY (project_id, category_id),
+
+    CONSTRAINT fk_project_category_project
+        FOREIGN KEY (project_id)
+        REFERENCES service_project (project_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_project_category_category
+        FOREIGN KEY (category_id)
+        REFERENCES category (category_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+
+--==========================================================
+--Data Insertion to Category
+--==========================================================
+INSERT INTO category (name)
+VALUES
+    ('Community Support'),
+    ('Environmental Service'),
+    ('Education and Youth Development');
+--===================================================
+--Check if table exist
+--===================================================
+SELECT category_id, name
+FROM category
+ORDER BY category_id;
+
+--======================================================
+--Associate each project in your database with at least one category
+--=====================================================
+INSERT INTO service_project_category (
+    project_id,
+    category_id
+)
+SELECT
+    sp.project_id,
+    c.category_id
+FROM (
+    VALUES
+        ('Community Food Drive', 'Community Support'),
+        ('Winter Clothing Collection', 'Community Support'),
+        ('Senior Grocery Assistance', 'Community Support'),
+        ('Holiday Meal Distribution', 'Community Support'),
+        ('Family Resource Fair', 'Community Support'),
+
+        ('Neighborhood Cleanup', 'Environmental Service'),
+        ('Community Garden Restoration', 'Environmental Service'),
+        ('Tree Planting Day', 'Environmental Service'),
+        ('Beach Cleanup Project', 'Environmental Service'),
+        ('Recycling Awareness Workshop', 'Environmental Service'),
+
+        ('School Supply Donation', 'Education and Youth Development'),
+        ('Youth Coding Workshop', 'Education and Youth Development'),
+        ('After-School Tutoring Day', 'Education and Youth Development'),
+        ('Career Readiness Seminar', 'Education and Youth Development'),
+        ('Children’s Book Donation', 'Education and Youth Development')
+) AS assignments(project_title, category_name)
+INNER JOIN service_project AS sp
+    ON sp.title = assignments.project_title
+INNER JOIN category AS c
+    ON c.name = assignments.category_name
+ON CONFLICT (project_id, category_id) DO NOTHING;
+
+--====================================================
+--Verify that every project has at least one category
+--======================================================
+SELECT
+    sp.project_id,
+    sp.title,
+    COUNT(spc.category_id) AS category_count
+FROM service_project AS sp
+LEFT JOIN service_project_category AS spc
+    ON sp.project_id = spc.project_id
+GROUP BY sp.project_id, sp.title
+ORDER BY sp.project_id;
