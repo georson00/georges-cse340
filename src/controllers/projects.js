@@ -11,16 +11,14 @@ const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
 // Define projects controller functions
 const showProjectsPage = async (req, res) => {
-  const projects = await getUpcomingProjects();
+  const projects = await getUpcomingProjects(NUMBER_OF_UPCOMING_PROJECTS);
   const title = "Upcoming Service Projects";
 
   res.render("projects", { title, projects });
 };
 
 app.get("/", async (req, res) => {
-  const upcomingProjects = await getUpcomingProjects(
-    NUMBER_OF_UPCOMING_PROJECTS,
-  );
+  const upcomingProjects = await getUpcomingProjects();
 
   res.render("home", {
     title: "Home",
