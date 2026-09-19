@@ -1,28 +1,50 @@
 <%- include('partials/header') %>
 
 <main>
-  
-  <h2>Upcoming Service Projects</h2>
-  
-        <p> Title: <%= project.title %></p>
+  <h1> <%= project.title %></h1>
+    <p>
+        <strong>Description:</strong>
+        <%= project.description %>
+    </p>
         
-    <p> Description: <%= project.description %></p>
-
-        Date: 
+    <p>
+        <strong>Date:</strong>
         <%= new Date(project.project_date).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
           day: 'numeric',
           timezone: 'UTC'
         }) %> 
-    <p>Location: <%= project.location %></p>
+    </p>
     <p>
-        Partner Organization: 
+        <strong>Location:</strong>
+        <%= project.location %></p>
+    <p>
+        <strong>Partner Organization:</strong>
         <a href="/organization/<%= project.organization_id %>">
             <%= project.organization_name %>
         </a>
     </p>
-    
+      <section aria-labelledby="categories-heading">
+    <h2 id="categories-heading">Categories</h2>
+
+    <% if (categories.length === 0) { %>
+      <p>This project does not have any categories.</p>
+    <% } else { %>
+      <ul class="category-tags">
+        <% categories.forEach(category => { %>
+          <li>
+            <a
+              class="category-tag"
+              href="/category/<%= category.category_id %>"
+            >
+              <%= category.name %>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </section>
     
     
     

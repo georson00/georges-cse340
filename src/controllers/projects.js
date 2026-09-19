@@ -4,6 +4,7 @@ import { getAllProjects } from "../models/projects.js";
 import { getUpcomingProjects } from "../models/projects.js";
 import { getProjectDetails } from "../models/projects.js";
 import { getProjectsByOrganizationId } from "../models/projects.js";
+import { getCategoriesByProjectId, getCategoryDetails } from "../models/categories.js";
 
 const app = express();
 
@@ -30,10 +31,14 @@ const showProjectDetailsPage = async (req, res) => {
   const projectId = req.params.id;
 
   const project = await getProjectDetails(projectId);
+  const categories = await getCategoriesByProjectId(projectId);
+
+  if (!project) { return res.status(404).send('Service project not found!'); }
 
   res.render("project", {
     title: project.title,
     project,
+    categories
   });
 };
 

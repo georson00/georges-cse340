@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+
+<main>
+  <h1><%= category.name %></h1>
+
+  <section aria-labelledby="projects-heading">
+    <h2 id="projects-heading">Service Projects</h2>
+
+    <% if (projects.length === 0) { %>
+      <p>There are currently no service projects in this category.</p>
+    <% } else { %>
+      <ul class="project-list">
+        <% projects.forEach(project => { %>
+          <li class="project-tile">
+            <a href="/project/<%= project.project_id %>">
+              <%= project.title %>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

@@ -377,6 +377,262 @@ footer p {
 }
 
 
+
+/* =========================================
+   NESTED PROJECT AND CATEGORY LISTS
+   Used inside detail pages
+========================================= */
+
+.project-list,
+.category-list,
+.organization-list {
+  margin: 24px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px;
+  list-style: none;
+}
+
+.project-list > li,
+.category-list > li,
+.organization-list > li {
+  margin: 0;
+}
+
+/* Make each list item link look like a card */
+.project-list > li > a,
+.category-list > li > a,
+.organization-list > li > a {
+  display: block;
+  height: 100%;
+  padding: 20px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--primary);
+  border-radius: var(--radius-small);
+  box-shadow:
+    0 3px 12px rgba(17, 24, 39, 0.05);
+  color: var(--primary-dark);
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.project-list > li > a:hover,
+.category-list > li > a:hover,
+.organization-list > li > a:hover {
+  color: #ffffff;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+
+/* =========================================
+   PROJECT CARDS
+   Used on the /projects page
+========================================= */
+
+.projects-list {
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  list-style: none;
+}
+
+.project-tile {
+  padding: 24px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--primary);
+  border-radius: 12px;
+  box-shadow:
+    0 3px 12px rgba(17, 24, 39, 0.05);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.project-tile:hover {
+  transform: translateY(-3px);
+  border-left-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+
+.project-tile h2 {
+  margin: 0 0 14px;
+  font-size: 1.3rem;
+}
+
+.project-tile h2 a {
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+.project-tile h2 a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.project-tile p {
+  margin: 8px 0 0;
+}
+
+
+/* =========================================
+   CATEGORY TAGS
+   Used on individual project pages
+========================================= */
+
+.category-tags {
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+}
+
+.category-tags > li {
+  margin: 0;
+  padding: 0;
+}
+
+.category-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 8px 16px;
+  background-color: #e8f5ee;
+  border: 1px solid #8ac5a5;
+  border-radius: 999px;
+  color: var(--accent-dark);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.category-tag:hover {
+  color: #ffffff;
+  background-color: var(--accent-dark);
+  border-color: var(--accent-dark);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+
+/* =========================================
+   DETAIL PAGE INFORMATION
+========================================= */
+
+.project-details,
+.organization-details {
+  display: grid;
+  gap: 18px;
+}
+
+.project-details p,
+.organization-details p {
+  margin: 0;
+}
+
+.detail-label {
+  color: var(--text);
+  font-weight: 700;
+}
+
+
+/* =========================================
+   EMPTY STATES
+========================================= */
+
+.empty-state {
+  max-width: 650px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: var(--primary-light);
+  border: 1px dashed var(--primary);
+  border-radius: var(--radius-small);
+  color: var(--text-muted);
+}
+
+
+/* =========================================
+   ERROR PAGES
+========================================= */
+
+.error-page {
+  max-width: 700px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.error-page h1::after {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.error-code {
+  margin: 0 0 16px;
+  color: var(--primary-dark);
+  font-size: clamp(4rem, 15vw, 8rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.error-page p {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+/* =========================================
+   RESPONSIVE DETAIL PAGE STYLES
+========================================= */
+
+@media (max-width: 800px) {
+  .project-list,
+  .category-list,
+  .organization-list,
+  .projects-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .project-tile {
+    padding: 20px;
+  }
+
+  .category-tags {
+    gap: 8px;
+  }
+
+  .category-tag {
+    min-height: 44px;
+    padding: 9px 14px;
+  }
+}
+
+
+
 /* =========================================
    TABLETS
 ========================================= */
