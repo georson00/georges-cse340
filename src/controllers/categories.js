@@ -16,10 +16,12 @@ const showCategoryDetailsPage = async (req, res) => {
   const categoryId = req.params.id;
 
   const category = await getCategoryDetails(categoryId);
-  const projects = await getProjectsByCategoryId(categoryId);
+  
 
   if (!category) { return res.status(404).send('Category not found!'); }
 
+  const projects = await getProjectsByCategoryId(categoryId);
+  
   res.render("category", {
     title: category.name,
     category,
