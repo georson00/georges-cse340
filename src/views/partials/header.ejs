@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <nav>
+    <header>
+        <nav>
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/organizations">Organizations</a></li>
@@ -15,3 +16,23 @@
             <li><a href="/categories">Categories</a></li>
         </ul>
     </nav>
+    <% const messages = flash(); %>
+
+        <% if (Object.keys(messages).length > 0) { %>
+            <div class="flash-messages" aria-live="polite">
+                <% Object.entries(messages).forEach(([type, messageList]) => { %>
+                    <% messageList.forEach(message => { %>
+                        <div
+                            class="alert <%= type %>"
+                            role="<%= type === 'error' ? 'alert' : 'status' %>"
+                        >
+                            <%= message %>
+                        </div>
+                    <% }); %>
+                <% }); %>
+            </div>
+        <% } %>
+    </header>
+    
+    
+    
