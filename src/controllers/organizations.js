@@ -127,7 +127,7 @@ const processEditOrganizationForm = async (req, res) => {
   req.flash("success", "Organization updated successfully!");
 
   res.redirect(`/organization/${organizationId}`);
-};;
+};
 
 
 // Export organizations controller functions

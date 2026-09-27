@@ -25,6 +25,13 @@
             <%= project.organization_name %>
         </a>
     </p>
+        <div>
+      <a
+    href="/edit-project/<%= project.project_id %>"
+    class="button-link">
+    Edit Project
+  </a>
+    </div>
       <section aria-labelledby="categories-heading">
     <h2 id="categories-heading">Categories</h2>
 
@@ -44,7 +51,15 @@
         <% }) %>
       </ul>
     <% } %>
-    <a href="/assign-categories/<%= project.project_id %>">Edit Categories</a>
+   
+    <div>
+      <a href="/assign-categories/<%= project.project_id %>">Edit Categories</a>
+    </div>
+
+      
+    
+    
+    
   </section>
     
     
