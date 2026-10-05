@@ -35,7 +35,15 @@ import {
 
 import { testErrorPage } from "./controllers/errors.js";
 
-
+import {
+  showUserRegistrationForm,
+  processUserRegistrationForm,
+  showLoginForm,
+  processLoginForm,
+  requireLogin,
+  showDashboard,
+  processLogout
+} from "./controllers/users.js";
 
 const router = express.Router();
 
@@ -91,6 +99,18 @@ router.post('/new-category', categoryValidation, processNewCategoryForm);
 //Routes to handle category edit
 router.get("/edit-category/:id", showEditCategoryForm);
 router.post("/edit-category/:id", categoryValidation, processEditCategoryForm);
+
+// User registration routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
+
+// User login routes
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
+
+// Protected dashboard route
+router.get('/dashboard', requireLogin, showDashboard);
 
 
 export default router;
