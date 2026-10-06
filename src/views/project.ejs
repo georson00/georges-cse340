@@ -26,11 +26,13 @@
         </a>
     </p>
         <div>
+      <% if (user && user.role_name === 'admin') { %>
       <a
     href="/edit-project/<%= project.project_id %>"
     class="button-link">
     Edit Project
   </a>
+  <% } %>
     </div>
       <section aria-labelledby="categories-heading">
     <h2 id="categories-heading">Categories</h2>
@@ -53,7 +55,9 @@
     <% } %>
    
     <div>
+    <% if (user && user.role_name === 'admin') { %>
       <a href="/assign-categories/<%= project.project_id %>">Edit Categories</a>
+    <% } %>
     </div>
 
       
