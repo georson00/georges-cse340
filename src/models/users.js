@@ -19,7 +19,7 @@ const createUser = async (name, email, passwordHash) => {
         throw new Error('Failed to create user');
     }
 
-    if (process.env.ENANLE_SQL_LOGGING === 'true') {
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
         console.log('Created new user with ID:', result.rows[0].user_id)
     }
 
