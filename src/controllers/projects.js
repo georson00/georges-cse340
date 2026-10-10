@@ -83,12 +83,12 @@ const showProjectDetailsPage = async (req, res) => {
       req.session.user.user_id,
     );
   }
-  req.flash("success", "You have successfully signed up for this project! Visit your dashboard to see a list of your projects.");
   res.render("project", {
     title: project.title,
     project,
     categories,
-    isVolunteering
+    isVolunteering,
+    
   });
   
 };

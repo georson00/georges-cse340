@@ -21,7 +21,11 @@ const addVolunteer = async (req, res, next) => {
     }
 
     await addVolunteersToProjects(projectId, userId);
-
+    
+    req.flash(
+      "success",
+      "You have successfully signed up for this project! Visit your dashboard to see a list of your projects."
+    );
     return res.redirect(`/project/${projectId}`);
   } catch (error) {
     next(error);
