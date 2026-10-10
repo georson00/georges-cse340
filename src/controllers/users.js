@@ -3,8 +3,10 @@ import {
   createUser,
   getAllUsers,
   authenticateUser,
+  addVolunteersToProjects,
 } from "../models/users.js";
 
+import { getAllVolunteeredProjects } from "../models/users.js";
 
 const showUserRegistrationForm = (req, res) => {
   res.render("register", { title: "Register" });
@@ -82,12 +84,16 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
-const showDashboard = (req, res) => {
-    const user = req.session.user;
+const showDashboard = async (req, res) => {
+  const user = req.session.user;
+  const volunteeredProjects = await getAllVolunteeredProjects(
+  req.session.user.user_id
+);
     res.render("dashboard", {
         title: "Dashboard",
         name: user.name,
-        email: user.email
+      email: user.email,
+        volunteeredProjects
         
     });
     
@@ -125,6 +131,7 @@ const showAllUsers = async (req, res) => {
 
 
 
+
  export {
     showUserRegistrationForm,
     processUserRegistrationForm,
@@ -134,6 +141,6 @@ const showAllUsers = async (req, res) => {
     requireLogin,
     showDashboard,
     requireRole,
-    showAllUsers
+  showAllUsers
 
 };

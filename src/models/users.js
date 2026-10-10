@@ -1,5 +1,6 @@
 import db from "./db.js";
 import bcrypt from "bcrypt";
+import { Result } from "pg";
 
 
 const createUser = async (name, email, passwordHash) => {
@@ -85,7 +86,69 @@ const getAllUsers = async () => {
 };
 
 
+const addVolunteersToProjects = async (projectId, userId) => {
+  const query = `
+    INSERT INTO service_project_volunteer(project_id, user_id)
+    VALUES ($1, $2)
+    ON CONFLICT (project_id, user_id) DO NOTHING
+    
+    `;
+
+  await db.query(query, [projectId, userId]);
+
+}
+const removeVolunteersFromProjects = async (projectId, userId) => {
+  const query = `
+  DELETE FROM service_project_volunteer
+  WHERE project_id = $1 AND user_id = $2;
+  `;
+
+  await db.query(query, [projectId, userId]);
+}
+
+const getAllVolunteeredProjects = async (userId) => {
+  const query = `
+  SELECT
+    sp.project_id,
+    sp.title,
+    sp.project_date,
+    sp.location
+  FROM service_project sp
+  JOIN service_project_volunteer spv
+  ON sp.project_id = spv.project_id
+  WHERE spv.user_id = $1
+  ORDER BY sp.project_date ASC, sp.project_id ASC
+  `;
+  const result = await db.query(query, [userId]);
+
+  return result.rows;
+
+};
+
+const isUserVolunteering = async (projectId, userId) => {
+  const query = `
+  SELECT EXISTS(
+  SELECT 1
+  FROM service_project_volunteer
+  WHERE project_id =$1 AND user_id = $2
+  ) AS is_voluntering
+  
+  `;
+  
+  const result = await db.query(query, [projectId, userId]);
+
+  return result.rows[0].isUserVolunteering;
+}
 
 
 
-export { createUser, authenticateUser, getAllUsers};
+
+export {
+  createUser,
+  authenticateUser,
+  getAllUsers,
+  addVolunteersToProjects,
+  removeVolunteersFromProjects,
+  getAllVolunteeredProjects,
+  isUserVolunteering
+};

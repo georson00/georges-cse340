@@ -13,7 +13,7 @@
           year: 'numeric',
           month: 'long',
           day: 'numeric',
-          timezone: 'UTC'
+          timeZone: 'UTC'
         }) %> 
     </p>
     <p>
@@ -33,7 +33,38 @@
     Edit Project
   </a>
   <% } %>
-    </div>
+        </div>
+        <div>
+          <% if (isLoggedIn) { %>
+  <section aria-labelledby="volunteer-heading">
+    <h2 id="volunteer-heading">Volunteer</h2>
+
+    <% if (isVolunteering) { %>
+      <p>You are volunteering for this project.</p>
+
+      <form
+        action="/project/<%= project.project_id %>/volunteer/remove"
+        method="post"
+      >
+        <input type="hidden" name="returnTo" value="project">
+
+        <button type="submit" class="button-link">
+          Remove my volunteer signup
+        </button>
+      </form>
+    <% } else { %>
+      <form
+        action="/project/<%= project.project_id %>/volunteer"
+        method="post"
+      >
+        <button type="submit" class="button-link">
+          Volunteer for this project
+        </button>
+      </form>
+    <% } %>
+  </section>
+<% } %>
+        </div>
       <section aria-labelledby="categories-heading">
     <h2 id="categories-heading">Categories</h2>
 

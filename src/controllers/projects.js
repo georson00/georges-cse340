@@ -12,6 +12,7 @@ import {
 
 import { getCategoriesByProjectId, getCategoryDetails } from "../models/categories.js";
 import { getAllOrganizations } from "../models/organizations.js";
+import { isUserVolunteering } from "../models/users.js";
 
 const app = express();
 
@@ -72,13 +73,24 @@ const showProjectDetailsPage = async (req, res) => {
   const project = await getProjectDetails(projectId);
   const categories = await getCategoriesByProjectId(projectId);
 
+  
   if (!project) { return res.status(404).send('Service project not found!'); }
+  let isVolunteering = false;
 
+  if (req.session?.user) {
+    isVolunteering = await isUserVolunteering(
+      project.project_id,
+      req.session.user.user_id,
+    );
+  }
+  req.flash("success", "You have successfully signed up for this project! Visit your dashboard to see a list of your projects.");
   res.render("project", {
     title: project.title,
     project,
-    categories
+    categories,
+    isVolunteering
   });
+  
 };
 
 const showNewProjectForm = async (req, res) => {

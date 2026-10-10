@@ -276,3 +276,24 @@ password_hash VARCHAR(255) NOT NULL,
 role_id INTEGER REFERENCES roles(role_id),
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE service_project_volunteer (
+    project_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+
+    CONSTRAINT pk_service_project_volunteer
+        PRIMARY KEY (project_id, user_id),
+
+    CONSTRAINT fk_project_volunteer_project
+        FOREIGN KEY (project_id)
+        REFERENCES service_project (project_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_project_volunteer_volunteer
+        FOREIGN KEY (user_id)
+        REFERENCES users (user_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
