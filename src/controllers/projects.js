@@ -71,23 +71,26 @@ const showProjectDetailsPage = async (req, res) => {
   const projectId = req.params.id;
 
   const project = await getProjectDetails(projectId);
-  const categories = await getCategoriesByProjectId(projectId);
 
   
   if (!project) { return res.status(404).send('Service project not found!'); }
   let isVolunteering = false;
+
+  const categories = await getCategoriesByProjectId(projectId);
 
   if (req.session?.user) {
     isVolunteering = await isUserVolunteering(
       project.project_id,
       req.session.user.user_id,
     );
-  }
+    
+  };
+ 
   res.render("project", {
     title: project.title,
     project,
     categories,
-    isVolunteering,
+    isVolunteering
     
   });
   

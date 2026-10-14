@@ -1,11 +1,11 @@
 import {
-  addVolunteersToProjects,
-  removeVolunteersFromProjects,
+  addVolunteer,
+  removeVolunteer,
 } from "../models/users.js";
 
 import { getProjectDetails } from "../models/projects.js";
 
-const addVolunteer = async (req, res, next) => {
+const processAddVolunteer = async (req, res, next) => {
   try {
     const projectId = Number(req.params.id);
     const userId = req.session.user.user_id;
@@ -20,7 +20,7 @@ const addVolunteer = async (req, res, next) => {
       return res.status(404).send("Project not found.");
     }
 
-    await addVolunteersToProjects(projectId, userId);
+    await addVolunteer(projectId, userId);
     
     req.flash(
       "success",
@@ -32,7 +32,7 @@ const addVolunteer = async (req, res, next) => {
   }
 };
 
-const removeVolunteer = async (req, res, next) => {
+const processRemoveVolunteer = async (req, res, next) => {
   try {
     const projectId = Number(req.params.id);
     const userId = req.session.user.user_id;
@@ -41,7 +41,7 @@ const removeVolunteer = async (req, res, next) => {
       return res.status(400).send("Invalid project ID.");
     }
 
-    await removeVolunteersFromProjects(projectId, userId);
+    await removeVolunteer(projectId, userId);
 
     // Both pages can use this controller.
     const destination =
@@ -55,4 +55,4 @@ const removeVolunteer = async (req, res, next) => {
   }
 };
 
-export { addVolunteer, removeVolunteer };
+export { processAddVolunteer, processRemoveVolunteer };

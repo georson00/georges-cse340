@@ -3,7 +3,7 @@ import {
   createUser,
   getAllUsers,
   authenticateUser,
-  addVolunteersToProjects,
+  addVolunteer,
 } from "../models/users.js";
 
 import { getAllVolunteeredProjects } from "../models/users.js";

@@ -1,106 +1,94 @@
 <%- include('partials/header') %>
 
-<main>
-  <h1> <%= project.title %></h1>
+  <main>
+    <h1>
+      <%= project.title %>
+    </h1>
     <p>
-        <strong>Description:</strong>
-        <%= project.description %>
+      <strong>Description:</strong>
+      <%= project.description %>
     </p>
-        
+
     <p>
-        <strong>Date:</strong>
-        <%= new Date(project.project_date).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          timeZone: 'UTC'
-        }) %> 
+      <strong>Date:</strong>
+      <%= new Date(project.project_date).toLocaleDateString('en-US', { year: 'numeric' , month: 'long' , day: 'numeric'
+        , timeZone: 'UTC' }) %>
     </p>
     <p>
-        <strong>Location:</strong>
-        <%= project.location %></p>
-    <p>
-        <strong>Partner Organization:</strong>
-        <a href="/organization/<%= project.organization_id %>">
-            <%= project.organization_name %>
-        </a>
+      <strong>Location:</strong>
+      <%= project.location %>
     </p>
-        <div>
-      <% if (user && user.role_name === 'admin') { %>
-      <a
-    href="/edit-project/<%= project.project_id %>"
-    class="button-link">
-    Edit Project
-  </a>
-  <% } %>
-        </div>
-        <div>
-          <% if (isLoggedIn) { %>
-  <section aria-labelledby="volunteer-heading">
-    <h2 id="volunteer-heading">Volunteer</h2>
-
-    <% if (isVolunteering) { %>
-      <p>You are volunteering for this project.</p>
-
-      <form
-        action="/project/<%= project.project_id %>/volunteer/remove"
-        method="post"
-      >
-        <input type="hidden" name="returnTo" value="project">
-
-        <button type="submit" class="button-link">
-          Remove my volunteer signup
-        </button>
-      </form>
-    <% } else { %>
-      <form
-        action="/project/<%= project.project_id %>/volunteer"
-        method="post"
-      >
-        <button type="submit" class="button-link">
-          Volunteer for this project
-        </button>
-      </form>
-    <% } %>
-  </section>
-<% } %>
-        </div>
-      <section aria-labelledby="categories-heading">
-    <h2 id="categories-heading">Categories</h2>
-
-    <% if (categories.length === 0) { %>
-      <p>This project does not have any categories.</p>
-    <% } else { %>
-      <ul class="category-tags">
-        <% categories.forEach(category => { %>
-          <li>
-            <a
-              class="category-tag"
-              href="/category/<%= category.category_id %>"
-            >
-              <%= category.name %>
-            </a>
-          </li>
-        <% }) %>
-      </ul>
-    <% } %>
-   
+    <p>
+      <strong>Partner Organization:</strong>
+      <a href="/organization/<%= project.organization_id %>">
+        <%= project.organization_name %>
+      </a>
+    </p>
     <div>
-    <% if (user && user.role_name === 'admin') { %>
-      <a href="/assign-categories/<%= project.project_id %>">Edit Categories</a>
-    <% } %>
+      <% if (user && user.role_name==='admin' ) { %>
+        <a href="/edit-project/<%= project.project_id %>" class="button-link">
+          Edit Project
+        </a>
+        <% } %>
     </div>
+    <div>
+      <% if (isLoggedIn) { %>
+        <section aria-labelledby="volunteer-heading">
+          <h2 id="volunteer-heading">Volunteer</h2>
+          
+          <% if (isVolunteering) { %>
+            <p>You are volunteering for this project.</p>
 
-      
-    
-    
-    
-  </section>
-    
-    
-    
-   
+            <form action="/project/<%= project.project_id %>/volunteer/remove" method="post">
+              <input type="hidden" name="returnTo" value="project">
 
-</main>
+              <button type="submit" class="button-link">
+                Remove myself from project
+              </button>
+            </form>
+            <% } else { %>
+              <form action="/project/<%= project.project_id %>/volunteer" method="post">
+                <button type="submit" class="button-link">
+                  Sign up for this project
+                </button>
+              </form>
+              <% } %>
+        </section>
+        <% } %>
+    </div>
+    <section aria-labelledby="categories-heading">
+      <h2 id="categories-heading">Categories</h2>
 
-<%- include('partials/footer') %>
+      <% if (categories.length===0) { %>
+        <p>This project does not have any categories.</p>
+        <% } else { %>
+          <ul class="category-tags">
+            <% categories.forEach(category=> { %>
+              <li>
+                <a class="category-tag" href="/category/<%= category.category_id %>">
+                  <%= category.name %>
+                </a>
+              </li>
+              <% }) %>
+          </ul>
+          <% } %>
+
+            <div>
+              <% if (user && user.role_name==='admin' ) { %>
+                <a href="/assign-categories/<%= project.project_id %>">Edit Categories</a>
+                <% } %>
+            </div>
+
+
+
+
+
+    </section>
+
+
+
+
+
+  </main>
+
+  <%- include('partials/footer') %>

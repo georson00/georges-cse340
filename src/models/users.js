@@ -86,7 +86,7 @@ const getAllUsers = async () => {
 };
 
 
-const addVolunteersToProjects = async (projectId, userId) => {
+const addVolunteer = async (projectId, userId) => {
   const query = `
     INSERT INTO service_project_volunteer(project_id, user_id)
     VALUES ($1, $2)
@@ -97,7 +97,7 @@ const addVolunteersToProjects = async (projectId, userId) => {
   await db.query(query, [projectId, userId]);
 
 }
-const removeVolunteersFromProjects = async (projectId, userId) => {
+const removeVolunteer = async (projectId, userId) => {
   const query = `
   DELETE FROM service_project_volunteer
   WHERE project_id = $1 AND user_id = $2;
@@ -131,13 +131,19 @@ const isUserVolunteering = async (projectId, userId) => {
   SELECT 1
   FROM service_project_volunteer
   WHERE project_id =$1 AND user_id = $2
-  ) AS is_voluntering
+  ) AS signed_up
   
   `;
   
   const result = await db.query(query, [projectId, userId]);
 
-  return result.rows[0].isUserVolunteering;
+  console.log("Volunteer check:", {
+    projectId,
+    userId,
+    row: result.rows[0],
+  });
+
+  return result.rows[0].signed_up;
 }
 
 
@@ -147,8 +153,8 @@ export {
   createUser,
   authenticateUser,
   getAllUsers,
-  addVolunteersToProjects,
-  removeVolunteersFromProjects,
+  addVolunteer,
+  removeVolunteer,
   getAllVolunteeredProjects,
   isUserVolunteering
 };
